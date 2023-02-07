@@ -2,7 +2,8 @@
   "name": "whitelist-tool",
   "version": "1.0.0",
   "scripts": {
-    "generate":"npx ts-node scripts/downloadAddresses.ts && npx ts-node scripts/generateHex.ts"
+    "generate":"npx ts-node scripts/downloadAddresses.ts && npx ts-node scripts/generateHex.ts",
+    "json": "npx ts-node scripts/generateJSON.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.264.0",
