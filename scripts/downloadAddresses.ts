@@ -20,6 +20,7 @@ const downloadAddresses = async () => {
   console.log(`downloading file ${process.env.CLAIM_ID}.csv ...`);
   const response = await client.send(command);
   console.log(
+    "\x1b[36m%s\x1b[0m",
     `successfully downloaded and wrote file into addresses-${process.env.CLAIM_ID}.csv`
   );
   const addresses = ((await response.Body?.transformToString()) || "")

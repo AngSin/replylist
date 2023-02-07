@@ -1,24 +1,28 @@
 import * as dotenv from "dotenv";
-import * as sha3 from "js-sha3";
 import { readFileSync } from "fs";
-import MerkleTree from "merkletreejs";
+// @ts-ignore-next-line
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 dotenv.config();
 
 const addresses = readFileSync(`./addresses-${process.env.CLAIM_ID}.csv`)
   .toString()
-  .split("\n");
+  .split("\n")
+  .filter((address) => !!address);
 
-const leaves = addresses.map((address: string) => sha3.keccak256(address));
+console.log(`${addresses.length} addresses were whitelisted`);
 
-const tree = new MerkleTree(leaves, sha3.keccak256, { sortPairs: true });
-console.log(`Whitelist HEX: ${tree.getHexRoot()}`);
+const leaves = addresses.map((address: string) => [address]);
 
-const leaf = sha3.keccak256(process.env.WALLET_ADDRESS!!);
-const treeProof = tree.getHexProof(leaf);
+const tree = StandardMerkleTree.of(leaves, ["address"]);
+console.log("\x1b[36m%s\x1b[0m", `Whitelist HEX: ${tree.root}`);
+
+const leaf = [process.env.WALLET_ADDRESS!!];
+const proof = tree.getProof(leaf);
 
 console.log(
-  `Address ${process.env.WALLET_ADDRESS} is ${
-    tree.verify(treeProof, leaf, tree.getRoot().toString("hex")) ? "" : "not"
+  "\x1b[35m",
+  `Address ${process.env.WALLET_ADDRESS} with proof: ${proof} is ${
+    tree.verify(leaf, proof) ? "" : "not"
   }whitelisted`
 );
