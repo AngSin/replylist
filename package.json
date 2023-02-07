@@ -4,7 +4,7 @@
   "scripts": {
     "root": "npx ts-node scripts/generateRoot.ts",
     "json": "npx ts-node scripts/generateJSON.ts",
-    "generate": "npx ts-node scripts/downloadAddresses.ts && npm run root && npm run json"
+    "generate": "npx ts-node scripts/downloadAddresses.ts && npm run json && npm run root"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.264.0",

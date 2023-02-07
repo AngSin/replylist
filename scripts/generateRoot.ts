@@ -5,10 +5,9 @@ import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 dotenv.config();
 
-const addresses = readFileSync(`./addresses-${process.env.CLAIM_ID}.csv`)
-  .toString()
-  .split("\n")
-  .filter((address) => !!address);
+const addresses = JSON.parse(
+  readFileSync(`./addresses-${process.env.CLAIM_ID}.json`, "utf8")
+);
 
 console.log(`${addresses.length} addresses were whitelisted`);
 
